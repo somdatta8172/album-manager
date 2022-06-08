@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -6,7 +7,7 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 const AlbumCard = (props) => {
   const { id, userId, title } = props.album;
 
-//delete an album
+  //delete an album
   const deleteAlbum = (e) => {
     e.preventDefault();
     fetch(`https://jsonplaceholder.typicode.com/albums/${id}`, {
@@ -14,14 +15,13 @@ const AlbumCard = (props) => {
     })
       .then((response) => response.json())
       .then((json) => {
-        // this.props.setItems(this.props.items.concat(json));
         let updatedItems = props.albums.filter((item) => item.id != id);
         props.setItems(updatedItems);
 
         console.log(json);
       });
   };
-//update an album
+  // update an album
   const updateAlbum = (e) => {
     e.preventDefault();
     let editAlert = prompt('Edit title here', '');
@@ -42,17 +42,11 @@ const AlbumCard = (props) => {
 
         let updatedItems = props.albums;
         console.log({ updatedItems });
-        // let index = updatedItems.findIndex((item) => item.id == id);
-        // console.log({ index });
-        // updatedItems.splice(index, 1, {
-        //   id: id,
-        //   userId: userId,
-        //   title: json.title,
-        // });
-        props.setItems([
-          json,
-          ...props.albums.filter((item) => item.id != json.id),
-        ]);
+        props.setItems(
+          [json, ...props.albums.filter((item) => item.id != json.id)].sort(
+            (a, b) => +a.id - +b.id
+          )
+        );
         console.log({ updatedItems });
 
         console.log({ props });
@@ -77,3 +71,4 @@ const AlbumCard = (props) => {
   );
 };
 export default AlbumCard;
+
